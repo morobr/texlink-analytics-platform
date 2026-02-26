@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: texlink_test
+          POSTGRES_USER: texlink
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Initialize test database
+        env:
+          PGPASSWORD: password
+        run: |
+          psql -h localhost -U texlink -d texlink_test -f src/database/schema.sql
+          psql -h localhost -U texlink -d texlink_test -f src/database/indexes.sql
+          psql -h localhost -U texlink -d texlink_test -f src/database/functions.sql
+
+      - name: Run tests
+        env:
+          DATABASE_URL: postgresql://texlink:password@localhost:5432/texlink_test
+        run: pytest tests/ -v --tb=short
+
+      - name: Lint
+        run: |
+          ruff check src/ tests/
+          black --check src/ tests/

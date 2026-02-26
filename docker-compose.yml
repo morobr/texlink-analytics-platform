@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: texlink_db
+    environment:
+      POSTGRES_DB: texlink
+      POSTGRES_USER: texlink
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - texlink_pgdata:/var/lib/postgresql/data
+      - ./src/database/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./src/database/indexes.sql:/docker-entrypoint-initdb.d/02_indexes.sql
+      - ./src/database/functions.sql:/docker-entrypoint-initdb.d/03_functions.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U texlink -d texlink"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: texlink_dashboard
+    environment:
+      - DATABASE_URL=postgresql://texlink:password@postgres:5432/texlink
+    ports:
+      - "8501:8501"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: streamlit run src/dashboards/app.py
+
+volumes:
+  texlink_pgdata:

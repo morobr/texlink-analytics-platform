@@ -1,0 +1,164 @@
+# ============================================================================
+# Texlink Analytics — Seed Data Configuration
+# Controls volumes, distributions, and realism parameters
+# ============================================================================
+
+# --- Time range ---
+history_months: 18          # Months of historical data to generate
+start_date: "2024-08-01"    # First record date
+
+# --- Entity volumes ---
+categorias: 24              # Product categories (hierarchical)
+empresas: 150               # Brands/buyers (demand side)
+oficinas: 400               # Sewing workshops (supply side)
+usuarios_per_empresa: [1, 3]  # Min/max users per empresa
+usuarios_per_oficina: [1, 2]  # Min/max users per oficina
+
+# --- Order volumes ---
+pedidos_total: 1800         # Total production orders over history
+pedido_items_per_pedido: [1, 6]  # Line items per order
+propostas_per_pedido: [0, 5]     # Bids per order
+
+# --- Platform events ---
+eventos_total: 50000        # Clickstream events
+
+# --- Geographic distribution ---
+# Focus on main textile hubs
+estados:
+  SC: 0.35    # Santa Catarina (Blumenau, Joinville)
+  SP: 0.30    # São Paulo
+  CE: 0.15    # Ceará (Fortaleza)
+  MG: 0.08    # Minas Gerais
+  PR: 0.07    # Paraná
+  RS: 0.05    # Rio Grande do Sul
+
+cidades_por_estado:
+  SC:
+    - Blumenau
+    - Joinville
+    - Brusque
+    - Gaspar
+    - Indaial
+  SP:
+    - São Paulo
+    - Americana
+    - Jundiaí
+    - Campinas
+    - Santo André
+  CE:
+    - Fortaleza
+    - Caucaia
+    - Maracanaú
+    - Sobral
+  MG:
+    - Belo Horizonte
+    - Contagem
+    - Divinópolis
+  PR:
+    - Curitiba
+    - Londrina
+    - Maringá
+  RS:
+    - Porto Alegre
+    - Caxias do Sul
+    - Novo Hamburgo
+
+# --- Order funnel probabilities ---
+funnel:
+  publicado_rate: 0.90       # % of rascunho that become published
+  proposta_rate: 0.85        # % of published that get at least 1 proposal
+  match_rate: 0.75           # % of orders with proposals that get matched
+  producao_rate: 0.95        # % of matched orders that enter production
+  entregue_rate: 0.90        # % that get delivered
+  finalizado_rate: 0.85      # % that get fully finalized
+  cancelado_rate: 0.05       # % cancelled at any stage
+
+# --- Financial parameters ---
+financeiro:
+  preco_medio_peca: 18.50        # Average price per piece (BRL)
+  preco_desvio: 8.00             # Standard deviation
+  taxa_plataforma_min: 0.06      # 6% min commission
+  taxa_plataforma_max: 0.12      # 12% max commission
+  taxa_plataforma_media: 0.085   # 8.5% average
+  desconto_volume: 0.02          # Volume discount per 1000 pieces
+
+# --- Oficina capabilities ---
+oficina_tiers:
+  bronze:    { weight: 0.40, score_range: [4.0, 6.5],  capacidade: [500, 2000] }
+  prata:     { weight: 0.35, score_range: [6.5, 8.0],  capacidade: [2000, 5000] }
+  ouro:      { weight: 0.18, score_range: [8.0, 9.2],  capacidade: [5000, 10000] }
+  diamante:  { weight: 0.07, score_range: [9.2, 10.0], capacidade: [10000, 25000] }
+
+# --- Empresa segments ---
+segmentos_empresa:
+  - { nome: "Moda Feminina",     weight: 0.25 }
+  - { nome: "Moda Masculina",    weight: 0.15 }
+  - { nome: "Moda Infantil",     weight: 0.12 }
+  - { nome: "Moda Praia",        weight: 0.08 }
+  - { nome: "Uniformes",         weight: 0.15 }
+  - { nome: "Moda Esportiva",    weight: 0.10 }
+  - { nome: "Moda Íntima",       weight: 0.07 }
+  - { nome: "Acessórios Têxteis",weight: 0.08 }
+
+# --- Certifications distribution ---
+certificacoes:
+  abvtex:   { weight: 0.30, tiers: [prata, ouro, diamante] }
+  iso9001:  { weight: 0.20, tiers: [ouro, diamante] }
+  nbcu:     { weight: 0.12, tiers: [ouro, diamante] }
+  disney:   { weight: 0.08, tiers: [diamante] }
+  bsci:     { weight: 0.10, tiers: [prata, ouro, diamante] }
+  wrap:     { weight: 0.08, tiers: [ouro, diamante] }
+  oeko_tex: { weight: 0.07, tiers: [prata, ouro, diamante] }
+  gots:     { weight: 0.05, tiers: [ouro, diamante] }
+
+# --- Temporal patterns ---
+sazonalidade:
+  # Monthly multipliers for order volume (1.0 = average)
+  # Brazilian textile: peaks in Aug-Oct (spring/summer collection) and Jan-Mar (fall/winter)
+  jan: 1.20
+  feb: 1.15
+  mar: 1.10
+  apr: 0.85
+  may: 0.80
+  jun: 0.75
+  jul: 0.90
+  aug: 1.25
+  sep: 1.30
+  oct: 1.20
+  nov: 1.10
+  dec: 0.70   # Holiday slowdown
+
+# --- Textile product categories ---
+categorias_produto:
+  - nome: "Vestuário Feminino"
+    subcategorias:
+      - Blusas e Camisetas
+      - Vestidos e Saias
+      - Calças e Shorts
+      - Jaquetas e Casacos
+  - nome: "Vestuário Masculino"
+    subcategorias:
+      - Camisas e Polo
+      - Calças e Bermudas
+      - Ternos e Blazers
+  - nome: "Vestuário Infantil"
+    subcategorias:
+      - Roupas para Bebê
+      - Roupas para Criança
+  - nome: "Moda Praia e Esporte"
+    subcategorias:
+      - Biquínis e Maiôs
+      - Roupas Esportivas
+      - Shorts e Regatas
+  - nome: "Uniformes Profissionais"
+    subcategorias:
+      - Uniformes Corporativos
+      - Uniformes de Saúde
+      - Aventais e EPIs Têxteis
+  - nome: "Moda Íntima e Pijamas"
+    subcategorias:
+      - Lingerie e Pijamas
+  - nome: "Acessórios Têxteis"
+    subcategorias:
+      - Bolsas e Mochilas de Tecido
+      - Bonés e Chapéus
