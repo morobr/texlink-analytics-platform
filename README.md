@@ -2,11 +2,14 @@
 
 > End-to-end analytics engineering for a two-sided textile marketplace connecting Brazilian brands to qualified sewing workshops.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Railway-0B0D0E.svg)](https://texlink-analytics-production.up.railway.app)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![PostgreSQL 16](https://img.shields.io/badge/PostgreSQL-16-336791.svg)](https://www.postgresql.org/)
 [![Railway](https://img.shields.io/badge/Deploy-Railway-0B0D0E.svg)](https://railway.app/)
 [![Streamlit](https://img.shields.io/badge/Dashboard-Streamlit-FF4B4B.svg)](https://streamlit.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+**🚀 Live at: [texlink-analytics-production.up.railway.app](https://texlink-analytics-production.up.railway.app)**
 
 ---
 
@@ -210,7 +213,7 @@ Six interactive Streamlit pages covering the full analytics spectrum:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/texlink-analytics.git
+git clone https://github.com/morobr/texlink-analytics-platform.git
 cd texlink-analytics
 
 # 2. Create virtual environment
@@ -256,22 +259,22 @@ railway up
 
 ## Deployment
 
+**Live URL:** [https://texlink-analytics-production.up.railway.app](https://texlink-analytics-production.up.railway.app)
+
 ### Railway Services
-| Service | Type | Purpose |
+| Service | Type | Status |
 |---|---|---|
-| `texlink-db` | PostgreSQL | Primary database |
-| `texlink-analytics` | Python | Analytics engine + model runner |
-| `texlink-dashboard` | Streamlit | Interactive dashboards |
+| `Postgres` | PostgreSQL 16 | Running |
+| `texlink-analytics` | Streamlit (nixpacks) | Running |
 
 ### Environment Variables
 ```
 DATABASE_URL=postgresql://user:pass@host:port/dbname
 PGHOST=...
 PGPORT=5432
-PGDATABASE=texlink
+PGDATABASE=railway
 PGUSER=...
 PGPASSWORD=...
-STREAMLIT_SERVER_PORT=8501
 ```
 
 ---
