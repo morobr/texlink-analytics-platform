@@ -48,10 +48,10 @@ def _safe_pct(df, col, val):
         return 0.0
     return float((df[col] == val).mean() * 100)
 
-match_rate = _safe_mean(mq_df, "match_rate_pct")
-avg_quality = _safe_mean(mq_df, "quality_score_avg")
-repeat_pair_pct = _safe_pct(mq_df, "par_repetido", True)
-interestadual_pct = _safe_pct(mq_df, "tipo_geo", "interestadual")
+match_rate = _safe_mean(mq_df, "pct_finalizado")
+avg_quality = _safe_mean(mq_df, "avg_match_quality")
+repeat_pair_pct = float(mq_df["pct_repeat"].mean()) if not mq_df.empty and "pct_repeat" in mq_df.columns else 0.0
+interestadual_pct = _safe_pct(mq_df, "tipo_match_geografico", "interestadual")
 
 kpi_row(
     [
@@ -69,18 +69,13 @@ col_l, col_r = st.columns(2)
 
 with col_l:
     st.subheader("Matches por Tipo Geográfico")
-    if not mq_df.empty and "tipo_geo" in mq_df.columns:
-        geo_counts = mq_df["tipo_geo"].value_counts().reset_index()
-        geo_counts.columns = ["tipo_geo", "count"]
-        fig = bar_chart(geo_counts, x="tipo_geo", y="count", title="Distribuição por Tipo Geo")
-        st.plotly_chart(fig, use_container_width=True)
-    elif not geo_df.empty and "tipo_geo" in geo_df.columns:
-        geo_counts = geo_df["tipo_geo"].value_counts().reset_index()
-        geo_counts.columns = ["tipo_geo", "count"]
-        fig = bar_chart(geo_counts, x="tipo_geo", y="count", title="Distribuição por Tipo Geo")
+    if not mq_df.empty and "tipo_match_geografico" in mq_df.columns:
+        geo_counts = mq_df.groupby("tipo_match_geografico")["total_matches"].sum().reset_index()
+        geo_counts.columns = ["tipo_match_geografico", "count"]
+        fig = bar_chart(geo_counts, x="tipo_match_geografico", y="count", title="Distribuição por Tipo Geo")
         st.plotly_chart(fig, use_container_width=True)
     else:
-        st.info("Coluna 'tipo_geo' não encontrada.")
+        st.info("Dados de tipo geográfico não encontrados.")
 
 with col_r:
     st.subheader("GMV Matched por Estado da Empresa")
