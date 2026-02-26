@@ -24,7 +24,7 @@ st.set_page_config(
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.image("https://via.placeholder.com/200x60?text=Texlink", use_container_width=True)
+    st.image("https://via.placeholder.com/200x60?text=Texlink", use_column_width=True)
     st.markdown("---")
     connected = db_available()
     if connected:
