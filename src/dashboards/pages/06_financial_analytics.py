@@ -49,9 +49,9 @@ if df.empty:
 df["mes"] = pd.to_datetime(df["mes"])
 
 # ── KPI row ───────────────────────────────────────────────────────────────────
-total_gmv = df["gmv_total"].sum() if "gmv_total" in df.columns else 0
+total_gmv = df["gmv"].sum() if "gmv" in df.columns else 0
 total_receita = df["receita_plataforma"].sum() if "receita_plataforma" in df.columns else 0
-avg_take_rate = df["take_rate_pct"].mean() if "take_rate_pct" in df.columns else 0
+avg_take_rate = df["take_rate_real_pct"].mean() if "take_rate_real_pct" in df.columns else 0
 avg_ticket = df["ticket_medio"].mean() if "ticket_medio" in df.columns else 0
 
 kpi_row(
@@ -70,7 +70,7 @@ col_l, col_r = st.columns(2)
 
 with col_l:
     st.subheader("GMV e Receita por Mês")
-    gmv_col = "gmv_total" if "gmv_total" in df.columns else None
+    gmv_col = "gmv" if "gmv" in df.columns else None
     rev_col = "receita_plataforma" if "receita_plataforma" in df.columns else None
     if gmv_col and rev_col:
         fig = dual_axis_line_chart(
@@ -84,9 +84,9 @@ with col_l:
 
 with col_r:
     st.subheader("Crescimento MoM do GMV (%)")
-    if "gmv_total" in df.columns:
-        df_growth = df[["mes", "gmv_total"]].copy()
-        df_growth["gmv_mom_pct"] = df_growth["gmv_total"].pct_change() * 100
+    if "gmv" in df.columns:
+        df_growth = df[["mes", "gmv"]].copy()
+        df_growth["gmv_mom_pct"] = df_growth["gmv"].pct_change() * 100
         df_growth = df_growth.dropna(subset=["gmv_mom_pct"])
         if not df_growth.empty:
             fig2 = bar_chart(
@@ -97,7 +97,7 @@ with col_r:
         else:
             st.info("Dados insuficientes para cálculo de MoM.")
     else:
-        st.info("Coluna gmv_total não encontrada.")
+        st.info("Coluna gmv não encontrada.")
 
 st.markdown("---")
 
@@ -128,8 +128,8 @@ with col_pay:
 with col_table:
     st.subheader("Breakdown Mensal")
     display_cols = [c for c in [
-        "mes", "gmv_total", "receita_plataforma", "take_rate_pct",
-        "ticket_medio", "n_pedidos", "n_pedidos_finalizados",
+        "mes", "gmv", "receita_plataforma", "take_rate_real_pct",
+        "ticket_medio", "n_pagamentos",
     ] if c in df.columns]
     table = df[display_cols].copy()
     table["mes"] = table["mes"].dt.strftime("%Y-%m")
