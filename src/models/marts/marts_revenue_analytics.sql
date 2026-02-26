@@ -5,19 +5,19 @@
 CREATE OR REPLACE VIEW marts_revenue_analytics AS
 WITH monthly_rev AS (
     SELECT
-        DATE_TRUNC('month', COALESCE(data_pagamento, created_at)) AS mes,
+        DATE_TRUNC('month', COALESCE(data_pagamento, dt_criacao)) AS mes,
         metodo,
         COUNT(*)                                                AS n_pagamentos,
         SUM(valor_bruto)                                        AS gmv,
         SUM(taxa_plataforma)                                    AS receita_bruta,
         SUM(valor_liquido)                                      AS pago_oficinas,
-        AVG(percentual_taxa * 100)                              AS taxa_media_pct,
+        AVG(pct_taxa * 100)                                     AS taxa_media_pct,
         SUM(valor_bruto) FILTER (WHERE metodo = 'pix')         AS gmv_pix,
         SUM(valor_bruto) FILTER (WHERE metodo = 'boleto')      AS gmv_boleto,
         SUM(valor_bruto) FILTER (WHERE metodo = 'transferencia') AS gmv_transferencia
     FROM stg_pagamentos
     WHERE foi_pago
-    GROUP BY DATE_TRUNC('month', COALESCE(data_pagamento, created_at)), metodo
+    GROUP BY DATE_TRUNC('month', COALESCE(data_pagamento, dt_criacao)), metodo
 ),
 monthly_agg AS (
     SELECT

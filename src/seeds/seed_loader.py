@@ -57,7 +57,10 @@ def _serialize_value(v: Any) -> str:
         # PostgreSQL array literal: {"val1","val2"}
         escaped = [str(item).replace('"', '\\"') for item in v]
         return "{" + ",".join(f'"{e}"' for e in escaped) + "}"
-    return str(v)
+    # Escape characters that break PostgreSQL COPY TEXT format
+    s = str(v)
+    s = s.replace("\\", "\\\\").replace("\t", "\\t").replace("\n", "\\n").replace("\r", "\\r")
+    return s
 
 
 def dicts_to_tsv(rows: list[dict]) -> io.StringIO:

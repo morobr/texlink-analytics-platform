@@ -18,21 +18,21 @@ WITH raw_scores AS (
         CASE
             WHEN op.total_avaliacoes >= 3
             THEN op.nota_qualidade_media
-            ELSE op.score_qualidade_media * 2  -- Convert 0-10 → 1-5 scale
+            ELSE op.nota_qualidade_media  -- already on 1-5 scale
         END                                                     AS raw_score_qualidade,
 
         -- === DIMENSION 2: Reliability/Punctuality (25%) ===
         CASE
             WHEN op.total_avaliacoes >= 3
             THEN op.nota_pontualidade_media
-            ELSE op.score_pontualidade_media * 2
+            ELSE op.nota_pontualidade_media
         END                                                     AS raw_score_pontualidade,
 
         -- === DIMENSION 3: Communication (15%) ===
         CASE
             WHEN op.total_avaliacoes >= 3
             THEN op.nota_comunicacao_media
-            ELSE op.score_comunicacao_media * 2
+            ELSE op.nota_comunicacao_media
         END                                                     AS raw_score_comunicacao,
 
         -- === DIMENSION 4: Volume/Experience (15%) ===
@@ -67,7 +67,7 @@ WITH raw_scores AS (
         op.ativo_recente
 
     FROM int_oficina_performance op
-    WHERE op.score_qualidade_media IS NOT NULL
+    WHERE op.nota_qualidade_media IS NOT NULL
        OR op.total_avaliacoes > 0
 )
 SELECT

@@ -100,7 +100,10 @@ def _weighted_choice(items: list[str], weights: list[float]) -> str:
 
 def _random_dt(start: datetime, end: datetime) -> datetime:
     delta = end - start
-    secs = random.randint(0, int(delta.total_seconds()))
+    total = int(delta.total_seconds())
+    if total <= 0:
+        return _dt(end)
+    secs = random.randint(0, total)
     return _dt(start + timedelta(seconds=secs))
 
 
@@ -144,6 +147,7 @@ class TexlinkSeeder:
         self.ds = TexlinkDataset()
         self.start_dt = _dt(datetime.fromisoformat(config["start_date"]))
         self.end_dt = _dt(datetime.now(UTC) - timedelta(days=1))
+        self._used_emails: set[str] = set()
 
         # Lookup maps built as we go
         self._empresa_ids: list[str] = []
@@ -153,6 +157,18 @@ class TexlinkSeeder:
         self._oficina_usuario_map: dict[str, list[str]] = {}  # oficina_id -> [usuario_id]
         self._categoria_ids: list[str] = []
         self._admin_usuario_id: str = ""
+
+    def _unique_email(self) -> str:
+        """Generate a guaranteed-unique email address."""
+        for _ in range(100):
+            email = fake.email()
+            if email not in self._used_emails:
+                self._used_emails.add(email)
+                return email
+        # fallback: uuid-based
+        email = f"user_{uuid.uuid4().hex[:8]}@texlink.com.br"
+        self._used_emails.add(email)
+        return email
 
     # -----------------------------------------------------------------------
     # 1. Categorias
@@ -364,7 +380,7 @@ class TexlinkSeeder:
                 ) if empresa["ativo"] else None
                 self.ds.usuarios.append({
                     "id": uid,
-                    "email": fake.email(),
+                    "email": self._unique_email(),
                     "nome": fake.name(),
                     "telefone": fake.phone_number(),
                     "role": role,
@@ -396,7 +412,7 @@ class TexlinkSeeder:
                 ) if oficina["ativo"] else None
                 self.ds.usuarios.append({
                     "id": uid,
-                    "email": fake.email(),
+                    "email": self._unique_email(),
                     "nome": fake.name(),
                     "telefone": fake.phone_number(),
                     "role": role,
