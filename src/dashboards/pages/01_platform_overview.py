@@ -69,8 +69,8 @@ kpi_row(
     [
         {
             "label": "GMV (mês atual)",
-            "value": latest.get("gmv_total", 0),
-            "delta": _delta("gmv_total"),
+            "value": latest.get("gmv", 0),
+            "delta": _delta("gmv"),
             "delta_suffix": "% MoM",
             "fmt": "R$ {:,.0f}",
         },
@@ -112,7 +112,7 @@ col_l, col_r = st.columns(2)
 
 with col_l:
     st.subheader("GMV Mensal")
-    gmv_cols = [c for c in ["gmv_total", "receita_plataforma"] if c in df.columns]
+    gmv_cols = [c for c in ["gmv", "receita_plataforma"] if c in df.columns]
     if gmv_cols:
         fig = line_chart(df, x="mes", y_cols=gmv_cols, title="GMV e Receita (R$)", y_label="R$")
         st.plotly_chart(fig, use_container_width=True)
@@ -143,7 +143,7 @@ st.markdown("---")
 # ── Summary table ─────────────────────────────────────────────────────────────
 st.subheader("Últimos 6 meses")
 display_cols = [c for c in [
-    "mes", "gmv_total", "receita_plataforma", "take_rate_pct",
+    "mes", "gmv", "receita_plataforma", "take_rate_pct",
     "match_rate_pct", "empresas_ativas", "oficinas_ativas",
 ] if c in df.columns]
 last6 = df[display_cols].tail(6).copy()
