@@ -133,42 +133,7 @@
 
 ---
 
-## 📝 Session Log
+## 📝 Changelog
 
-### Session 1 — 2026-02-23
-- ✅ Analyzed texlink.com.br for business context
-- ✅ Designed full project architecture
-- ✅ Created CLAUDE.md, README.md, PROGRESS.md
-- ✅ Built database schema (14 tables, indexes, triggers)
-- ✅ Created infrastructure files (docker-compose, railway.toml, requirements)
-
-### Session 2 — 2026-02-24
-- ✅ Built complete project directory structure
-- ✅ Moved schema.sql to `src/database/`, added indexes.sql & functions.sql
-- ✅ Created all infrastructure files (requirements.txt, pyproject.toml, .env.example, docker-compose.yml, railway.toml, ci.yml)
-- ✅ Built `seed_config.yaml` with realistic Brazilian textile parameters
-- ✅ Built `seed_generator.py` — full lifecycle simulation for all 14 tables
-- ✅ Built `seed_loader.py` — COPY-based bulk PostgreSQL loader with validation
-- ✅ Built 11 staging SQL models (stg_*)
-- ✅ Built 6 intermediate SQL models (int_*)
-- ✅ Built 8 mart SQL models (marts_*)
-- ✅ Built `run_all.py` — model execution pipeline
-- ✅ Built test suite (test_schema.py, test_seeds.py)
-- ✅ Built 5 analytics modules (customer_journey, cohort_analysis, clv_model, scoring_model, match_optimization)
-- ✅ 44 unit tests in test_analytics.py — all passing
-
-### Session 3 — 2026-02-25
-- ✅ Implemented Block 7 — Streamlit Dashboards (10 files)
-- ✅ `db.py` — cached DB engine, `run_query()`, `db_available()`
-- ✅ `app.py` — landing page with hero + top KPIs
-- ✅ Components: kpi_cards, filters, charts (7 chart types)
-- ✅ 6 dashboard pages covering platform, demand, supply, journey, matching, financial
-
-### Session 4 — 2026-02-26
-- ✅ Deployed Block 8 — Railway (PostgreSQL + Streamlit service)
-- ✅ Initial commit pushed to GitHub (73 files, 8,773 insertions)
-- ✅ Railway PostgreSQL provisioned and seeded (75,555 rows)
-- ✅ All 25 SQL views applied on Railway DB
-- ✅ Streamlit app live at https://texlink-analytics-production.up.railway.app
-- ✅ Fixed 5 bugs discovered during deployment (numpy, seeds, mart SQL)
-- 🎉 All 8 blocks complete — project fully deployed
+- **2026-02-26** — v1.0 deployed to Railway. All 8 blocks complete. 75,555 rows seeded, 25 SQL views, 6 dashboard pages live.
+- **2026-03-08** — Project polish: added docs (data dictionary, business glossary, architecture), shell scripts, .gitignore cleanup.

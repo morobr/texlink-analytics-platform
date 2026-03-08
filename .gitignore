@@ -31,3 +31,15 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Railway
+.railway/
+
+# Claude Code
+.claude/
+
+# Lock files (uv, etc.)
+uv.lock
+
+# Pytest
+.pytest_cache/

@@ -214,7 +214,7 @@ Six interactive Streamlit pages covering the full analytics spectrum:
 ```bash
 # 1. Clone the repository
 git clone https://github.com/morobr/texlink-analytics-platform.git
-cd texlink-analytics
+cd texlink-analytics-platform
 
 # 2. Create virtual environment
 python -m venv .venv
