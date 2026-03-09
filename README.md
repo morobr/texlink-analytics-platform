@@ -11,6 +11,8 @@
 
 **🚀 Live at: [texlink-analytics-production.up.railway.app](https://texlink-analytics-production.up.railway.app)**
 
+> 🇧🇷 **Leia em Portugues:** [README.pt-br.md](README.pt-br.md)
+
 ---
 
 ## 📋 Table of Contents
@@ -24,6 +26,7 @@
 - [Getting Started](#getting-started)
 - [Deployment](#deployment)
 - [Project Structure](#project-structure)
+- [AI-Assisted Development](#ai-assisted-development)
 - [Author](#author)
 
 ---
@@ -282,25 +285,47 @@ PGPASSWORD=...
 ## Project Structure
 
 ```
-texlink-analytics/
-├── CLAUDE.md              # AI development guide
-├── README.md              # This file
-├── PROGRESS.md            # Task tracking
-├── requirements.txt       # Dependencies
+texlink-analytics-platform/
+├── README.md              # Documentation (EN)
+├── README.pt-br.md        # Documentation (PT-BR)
+├── LICENSE                # MIT License
+├── PROGRESS.md            # Progress tracking
+├── requirements.txt       # Python dependencies
 ├── docker-compose.yml     # Local PostgreSQL
-├── railway.toml           # Railway config
-├── .env.example           # Env template
-├── docs/                  # Documentation
+├── railway.toml           # Railway deploy config
+├── .env.example           # Environment template
+├── docs/
+│   ├── data_dictionary.md     # Schema documentation
+│   ├── business_glossary.md   # Business terms
+│   └── architecture.md        # Technical architecture
 ├── src/
-│   ├── database/          # Schema DDL + indexes
-│   ├── seeds/             # Data generation
-│   ├── models/            # SQL transformations
-│   ├── analytics/         # Python analytics + ML
-│   └── dashboards/        # Streamlit app
-├── tests/                 # Pytest suite
-├── scripts/               # Shell utilities
-└── .github/workflows/     # CI/CD
+│   ├── database/          # Schema DDL + indexes + triggers
+│   ├── seeds/             # Faker-based data generation
+│   ├── models/            # SQL transformations (stg/int/marts)
+│   ├── analytics/         # Python analytics + ML models
+│   └── dashboards/        # Streamlit app (6 pages)
+├── tests/                 # Pytest suite (55 tests)
+├── scripts/               # Shell utilities (setup, deploy)
+└── .github/workflows/     # GitHub Actions CI/CD
 ```
+
+---
+
+## AI-Assisted Development
+
+This project was developed using **AI-assisted tooling** ([Claude Code](https://claude.ai)) to accelerate implementation. The architecture decisions, business logic, domain modeling, and analytics framework reflect my expertise as an analytics engineer — AI served as a force multiplier for coding velocity.
+
+What I brought to the table:
+- **Domain expertise**: Textile marketplace dynamics, two-sided platform KPIs, Brazilian industry context (ABVTEX, facções, LGPD)
+- **Architecture design**: Data modeling decisions (staging/intermediate/marts), metric definitions, scoring algorithms
+- **Quality assurance**: Code review, testing strategy, deployment troubleshooting
+
+What AI accelerated:
+- Boilerplate code generation (SQL views, Streamlit page scaffolding)
+- Documentation drafting
+- Dependency management and deployment configuration
+
+This reflects the modern reality of software engineering — the ability to effectively direct AI tools is itself a core competency.
 
 ---
 

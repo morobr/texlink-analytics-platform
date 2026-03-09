@@ -1,8 +1,10 @@
+# CLAUDE.md — Development Guide
 
+> This file serves as the project knowledge base for AI-assisted development tooling (Claude Code).
+> It documents architecture, conventions, and domain context used during development.
+> See [docs/architecture.md](docs/architecture.md) for the technical architecture documentation.
 
-# CLAUDE.md — Project Guide for AI-Assisted Development
-
-## 🎯 Project Purpose
+## Project Purpose
 This is a **showcase analytics engineering project** for Texlink (texlink.com.br), a Brazilian textile marketplace startup that connects **Empresas (brands/contractors)** to **Oficinas de Costura (sewing workshops/service providers)**.
 
 The project demonstrates end-to-end analytics engineering capabilities: database design, data modeling, customer journey analytics, and interactive dashboards — all deployed on Railway.com with PostgreSQL.
